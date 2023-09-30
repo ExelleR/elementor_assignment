@@ -3,7 +3,7 @@ name: Deploy and Test Flask App on Kubernetes
 on: [push]
 
 jobs:
-  deploy_and_test:
+  Deploy And Test:
     runs-on: ubuntu-latest
 
     steps:
