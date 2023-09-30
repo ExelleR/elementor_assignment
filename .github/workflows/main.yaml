@@ -10,16 +10,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v5
-      with:
-        context: ./dockerized_app
-        file: ./dockerized_app/Dockerfile
-        push: false
-        tags: flask-app:latest
+   
 
     - name: Set up Helm
       uses: azure/setup-helm@v3
@@ -36,16 +27,27 @@ jobs:
           echo "environment-kubeconfig:" ${KUBECONFIG}
           docker images
 
-    # - name: Create a Kubernetes cluster with kind
-    #   run: |
-    #     kind create cluster
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./dockerized_app
+        file: ./dockerized_app/Dockerfile
+        push: false
+        tags: flask-app:latest  
+
+    - name: List of images
+      run: |
+          docker images    
+
 
     - name: Load Docker image into kind cluster
       run: |
         kind load docker-image flask-app:latest
 
-    # - name: Set up kubectl
-    #   uses: azure/setup-kubectl@v1
+
 
     - name: Deploy Flask application using Helm
       run: |
