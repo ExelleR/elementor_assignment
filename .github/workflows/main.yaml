@@ -1,0 +1,39 @@
+name: Deploy and Test Rick and Morty API Data Fetcher
+
+on: [push]
+
+jobs:
+  deploy_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Set up Helm
+      uses: azure/setup-helm@v1
+      
+    - name: Install kind (Kubernetes in Docker)
+      uses: engineerd/setup-kind@v0.5.0
+      
+    - name: Create a Kubernetes cluster with kind
+      run: |
+        kind create cluster
+        
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v1
+      
+    - name: Deploy Flask application using Helm
+      run: |
+        helm install flask-app ./Helm
+        
+    - name: Run tests
+      run: |
+        # Here we will send HTTP requests to your Flask application's endpoints
+        # You can use tools like curl or any other HTTP client
+        # Example:
+        curl http://localhost:5000/data
+        
+    - name: Cleanup
+      run: |
+        kind delete cluster

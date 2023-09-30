@@ -1,0 +1,17 @@
+# Default values for rick-and-morty-app.
+
+replicaCount: 2
+
+image:
+  repository: rick_and_morty_app
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 5000
+
+ingress:
+  enabled: true
+  hostName: rick-and-morty.local

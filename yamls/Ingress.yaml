@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rick-and-morty-app-ingress
+spec:
+  rules:
+  - host: rick-and-morty.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: rick-and-morty-app-service
+            port:
+              number: 80
