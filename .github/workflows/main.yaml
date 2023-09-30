@@ -38,8 +38,8 @@ jobs:
         load: true
         tags: flask-app:latest  
 
-     - name: Inspect
-        run: |
+    - name: Inspect
+      run: |
           docker image inspect flask-app:latest
 
     - name: List of images
