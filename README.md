@@ -10,21 +10,49 @@ This application fetches and serves character data from the "Rick and Morty" API
 # In every subdirectory there is a separate README.md for each step of the assignment on how to run the app. 
 
 
-# GitHub Actions Workflow
+## GitHub Actions Workflow: Deploy and test Rick and Morty API Data Fetcher on Kubernetes
 
-Our CI/CD pipeline includes a GitHub Actions workflow that automates the deployment and testing of the Rick and Morty API Data Fetcher on a local Kubernetes cluster.
-Here's a brief overview of the steps involved:
+This workflow automates the deployment and testing of the "Rick and Morty API Data Fetcher" application on a local Kubernetes cluster using Helm and kind (Kubernetes in Docker). The workflow is triggered on every push to the repository.
 
-1. Environment Setup
-The workflow checks out the latest code from the repository.
-It sets up helm the essential tool for deploying applications on Kubernetes.
-kind (Kubernetes in Docker) is installed, which provides a lightweight Kubernetes cluster for local testing.
-2. Kubernetes Cluster Creation
-A new Kubernetes cluster is created using kind.
-3. Application Deployment
-The Rick and Morty API Data Fetcher is deployed to the Kubernetes cluster using the Helm chart provided in the repository.
-4. Testing - Most important step to see that the application actually getting the data. 
-Once deployed, the Rick and Morty API Data Fetcher's endpoints are tested to ensure they are functioning as expected. This is achieved by sending HTTP requests to the exposed endpoints.
-5. Cleanup
-After testing, the local Kubernetes cluster is deleted to free up resources.
-For more details on the workflow, you can check the .github/workflows/main.yml file in the repository.
+### Workflow Structure:
+
+#### 1. **Checkout code**:
+   This step checks out the latest version of your code from the repository using the `actions/checkout@v4` action.
+
+#### 2. **Set up Helm**:
+   Initializes Helm, the package manager for Kubernetes, using the `azure/setup-helm@v3` action.
+
+#### 3. **Install kind (Kubernetes in Docker)**:
+   Installs `kind`, a tool for running local Kubernetes clusters using Docker container nodes. The specific version `v0.20.0` is used in this step.
+
+#### 4. **Testing Kind**:
+   This step checks the status of the `kind` cluster by:
+   - Displaying cluster information
+   - Listing system pods
+   - Showing the current Kubernetes context
+   - Displaying the environment's kubeconfig
+   - Listing Docker images present
+
+#### 5. **Set up Docker Buildx**:
+   Initializes Docker Buildx using the `docker/setup-buildx-action@v3` action. Buildx is an extension for building container images.
+
+#### 6. **Build and push Docker image**:
+   Builds the Docker image for the "Rick and Morty API Data Fetcher" application using the specified Dockerfile and tags it as `rick-and-morty-app:latest`. The built image is also loaded into the Docker daemon.
+
+#### 7. **Load Docker image into kind cluster**:
+   Loads the Docker image into the `kind` cluster, making it available for deployment.
+
+#### 8. **Deploy Rick and Morty API Data Fetcher application using Helm**:
+   Uses Helm to deploy the application to the Kubernetes cluster. Overrides the image name and tag to use the locally built Docker image.
+
+#### 9. **Wait for Rick and Morty API Data Fetcher app to be ready and portforward**:
+   - Waits for the application's deployment to be ready using Helm and kubectl.
+   - Sets up port forwarding from the service to `localhost` on port `5000`.
+
+#### 10. **Run tests**:
+   Sends an HTTP request to the application's `/data` endpoint and processes the output using `jq`.
+
+#### 11. **Cleanup**:
+   Deletes the `kind` cluster, cleaning up all resources.
+
+
