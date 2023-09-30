@@ -40,11 +40,11 @@ jobs:
       run: |
         kind load docker-image rick-and-morty-app:latest
 
-    - name: Deploy Flask application using Helm
+    - name: Deploy Rick and Morty API Data Fetcher application using Helm
       run: |
         helm upgrade --install rick-and-morty-app ./Helm --set image.repository=rick-and-morty-app,image.tag=latest
 
-    - name: Wait for Flask app to be ready and portforward
+    - name: Wait for Rick and Morty API Data Fetcher app to be ready and portforward
       run: |
         # Wait for pods to be ready
         helm list
