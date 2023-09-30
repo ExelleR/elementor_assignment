@@ -1,9 +1,9 @@
-name: Deploy and Test Flask App on Kubernetes
+name: Deploy and test Rick and Morty API Data Fetcher on Kubernetes
 
 on: [push]
 
 jobs:
-  Deploy And Test:
+  deploy_and_test:
     runs-on: ubuntu-latest
 
     steps:
@@ -36,18 +36,18 @@ jobs:
         context: ./dockerized_app
         file: ./dockerized_app/Dockerfile
         load: true
-        tags: flask-app:latest  
+        tags: rick-and-morty-app:latest  
 
   
     - name: Load Docker image into kind cluster
       run: |
-        kind load docker-image flask-app:latest
+        kind load docker-image rick-and-morty-app:latest
 
 
 
     - name: Deploy Flask application using Helm
       run: |
-        helm upgrade --install flask-app ./Helm --set image.repository=flask-app,image.tag=latest
+        helm upgrade --install rick-and-morty-app ./Helm --set image.repository=rick-and-morty-app,image.tag=latest
 
     - name: Wait for Flask app to be ready and portforward
       run: |
