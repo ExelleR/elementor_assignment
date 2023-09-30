@@ -16,7 +16,7 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
       with:
-        context: .
+        context: ./dockerized_app
         file: ./dockerized_app/Dockerfile
         push: false
         tags: flask-app:latest
