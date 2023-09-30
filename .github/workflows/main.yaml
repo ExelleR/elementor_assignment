@@ -54,7 +54,7 @@ jobs:
         # Wait for pods to be ready
         helm list
         kubectl rollout status deployment --timeout=5m
-        kubectl port-forward svc/rick-and-morty-app-service 5000:5000 &
+        kubectl port-forward svc/rick-and-morty-app-service 5000:80 &
      
 
     - name: Run tests
