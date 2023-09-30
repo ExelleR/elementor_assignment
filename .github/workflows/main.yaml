@@ -38,15 +38,7 @@ jobs:
         load: true
         tags: flask-app:latest  
 
-    - name: Inspect
-      run: |
-          docker image inspect flask-app:latest
-
-    - name: List of images
-      run: |
-          docker images    
-
-
+  
     - name: Load Docker image into kind cluster
       run: |
         kind load docker-image flask-app:latest
@@ -56,6 +48,12 @@ jobs:
     - name: Deploy Flask application using Helm
       run: |
         helm upgrade --install flask-app ./Helm --set image.repository=flask-app,image.tag=latest
+
+   - name: Wait for Flask app to be ready
+      run: |
+        # Wait for pods to be ready
+        kubectl rollout status deployment/flask-app-deployment --timeout=5m
+     
 
     - name: Run tests
       run: |
