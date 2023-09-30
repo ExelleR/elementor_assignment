@@ -53,9 +53,7 @@ jobs:
 
     - name: Run tests
       run: |
-        # Here we will send HTTP requests to your Flask application's endpoints
-        # You can use tools like curl or any other HTTP client
-        # Example:
+      
         curl http://localhost:5000/data | jq
 
     - name: Cleanup
