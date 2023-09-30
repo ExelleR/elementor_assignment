@@ -35,8 +35,12 @@ jobs:
       with:
         context: ./dockerized_app
         file: ./dockerized_app/Dockerfile
-        push: false
+        load: true
         tags: flask-app:latest  
+
+     - name: Inspect
+        run: |
+          docker image inspect flask-app:latest
 
     - name: List of images
       run: |
