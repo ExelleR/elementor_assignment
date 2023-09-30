@@ -49,11 +49,12 @@ jobs:
       run: |
         helm upgrade --install flask-app ./Helm --set image.repository=flask-app,image.tag=latest
 
-    - name: Wait for Flask app to be ready
+    - name: Wait for Flask app to be ready and portforward
       run: |
         # Wait for pods to be ready
         helm list
         kubectl rollout status deployment --timeout=5m
+        kubectl port-forward svc/rick-and-morty-app-service 5000:5000 &
      
 
     - name: Run tests
