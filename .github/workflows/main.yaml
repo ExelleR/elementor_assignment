@@ -35,27 +35,27 @@ jobs:
           echo "current-context:" $(kubectl config current-context)
           echo "environment-kubeconfig:" ${KUBECONFIG}
 
-    # - name: Create a Kubernetes cluster with kind
-    #   run: |
-    #     kind create cluster
+    - name: Create a Kubernetes cluster with kind
+      run: |
+        kind create cluster
 
-    # - name: Load Docker image into kind cluster
-    #   run: |
-    #     kind load docker-image flask-app:latest
+    - name: Load Docker image into kind cluster
+      run: |
+        kind load docker-image flask-app:latest
 
     # - name: Set up kubectl
     #   uses: azure/setup-kubectl@v1
 
-    # - name: Deploy Flask application using Helm
-    #   run: |
-    #     helm upgrade --install flask-app ./Helm --set image.repository=flask-app,image.tag=latest
+    - name: Deploy Flask application using Helm
+      run: |
+        helm upgrade --install flask-app ./Helm --set image.repository=flask-app,image.tag=latest
 
-    # - name: Run tests
-    #   run: |
-    #     # Here we will send HTTP requests to your Flask application's endpoints
-    #     # You can use tools like curl or any other HTTP client
-    #     # Example:
-    #     curl http://localhost:port/endpoint
+    - name: Run tests
+      run: |
+        # Here we will send HTTP requests to your Flask application's endpoints
+        # You can use tools like curl or any other HTTP client
+        # Example:
+        curl http://localhost:5000/data
 
     - name: Cleanup
       run: |
