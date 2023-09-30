@@ -53,7 +53,7 @@ jobs:
       run: |
         # Wait for pods to be ready
         helm list
-        kubectl rollout status deployment/flask-app-deployment --timeout=5m
+        kubectl rollout status deployment --timeout=5m
      
 
     - name: Run tests
