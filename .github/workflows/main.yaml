@@ -35,9 +35,9 @@ jobs:
           echo "current-context:" $(kubectl config current-context)
           echo "environment-kubeconfig:" ${KUBECONFIG}
 
-    - name: Create a Kubernetes cluster with kind
-      run: |
-        kind create cluster
+    # - name: Create a Kubernetes cluster with kind
+    #   run: |
+    #     kind create cluster
 
     - name: Load Docker image into kind cluster
       run: |
